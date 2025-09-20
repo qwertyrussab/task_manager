@@ -1,7 +1,20 @@
 const form = document.querySelector (".form")
 // let counter = 1
+const containerTable = document.querySelector('.container-table')
+
+const scroll_to_form = document.querySelector('#scrolltoform')
 
 
+window.addEventListener('scroll', function(){
+    const formPosition = form.getBoundingClientRect()
+    if(formPosition.bottom < 0){
+        scroll_to_form.style.display = 'block'
+        
+    }
+    else{
+        scroll_to_form.style.display = 'none'
+    }
+})
 
    const table = document.createElement('table')
    table.classList.add("table", "table-striped", "mt-4")
@@ -13,7 +26,8 @@ const form = document.querySelector (".form")
                 <th>Название</th>
                 <th>Описание</th>
                 <th>Приоритет</th>
-                <th>удалить</i></th>
+                <th>Удалить</th>
+                <th>Статус</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -24,7 +38,7 @@ form.addEventListener("submit", function(event){
 
     
 
-    document.body.appendChild(table)
+    containerTable.appendChild(table)
 
     const title = document.querySelector("#inputTitle3").value
     const description = document.querySelector("#inputdesc3").value
@@ -39,6 +53,7 @@ form.addEventListener("submit", function(event){
         <td>${description}</td>
         <td>${priority}</td>
         <td><button class="delete"><i class="fa-solid fa-trash-can"></button></td>
+        <td><input class="checked" type="checkbox"></td>
             
     `
     tbody.appendChild(row)
@@ -55,7 +70,29 @@ form.addEventListener("submit", function(event){
         updateNumbers()
     })
 
+
+
     updateNumbers()
 
     form.reset() //ВНИЗУ
+
+    const checkbox = row.querySelector(".checked")
+
+    checkbox.addEventListener("change", function(){
+
+        if(checkbox.checked){
+            row.classList.add("complete")
+
+        }
+        else{
+            row.classList.remove("complete")
+        }
+
+    })
+
+})
+
+scroll_to_form.addEventListener('click', function(){
+    form.scrollIntoView({behavior: 'smooth'})
+
 })
